@@ -3,32 +3,34 @@ name: Sandy QA Automation
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Get the code
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
       
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: '18'
         
     - name: Install dependencies
       run: npm install
       
-    - name: Install Playwright browsers
+    - name: Install serve
+      run: npm install -g serve
+      
+    - name: Install Playwright
       run: npx playwright install --with-deps chromium
       
-    - name: Run Sandy's QA tests
+    - name: Start app server
+      run: serve . -p 3000 &
+      
+    - name: Run tests
       run: npx playwright test sandys-shop.spec.js --reporter=html
       
-    - name: Upload test report
+    - name: Upload report
       uses: actions/upload-artifact@v4
       if: always()
       with:

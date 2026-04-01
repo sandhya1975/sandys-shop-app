@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-const APP = 'file:///Users/babukunadian/sandys-shop-app/index.html';
+const APP = 'http://localhost:3000/index.html';
 
 test('TC1: Valid login succeeds', async ({ page }) => {
   await page.goto(APP);
