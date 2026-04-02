@@ -1,0 +1,21 @@
+name: Generate Guide
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-guide:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: node generate-guide.js
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: guide-output
+          path: guide-output.txt
